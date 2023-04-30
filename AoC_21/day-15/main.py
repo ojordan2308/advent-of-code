@@ -1,3 +1,5 @@
+from heapq import heapify, heappop, heappush
+
 TEST_INPUT_PATH = './test-input.txt'
 INPUT_PATH = './input.txt'
 
@@ -9,6 +11,9 @@ class Chiton:
         self.column = column
         self.risk_level = risk_level
         self.connects = []
+
+    def __lt__(self, other):
+        return risk_from_start[self] < risk_from_start[other]
 
     def __repr__(self):
         return f"({self.row}, {self.column})"
@@ -83,7 +88,7 @@ class Chiton:
 
 if __name__ == "__main__":
 
-    cavern = Chiton.get_big_cavern(Chiton.get_cavern())
+    cavern = Chiton.get_big_cavern(Chiton.get_cavern(puzzle_input_path=TEST_INPUT_PATH))
     Chiton.connect_chitons(cavern)
 
     n_rows = len(cavern)
@@ -96,18 +101,26 @@ if __name__ == "__main__":
     risk_from_start = {chiton: 1000000 for row in cavern for chiton in row}
     risk_from_start[start] = 0
 
-    next_chitons = [start]
+    iteration_num = 0
+    next_chitons = [(start, iteration_num)]
+    heapify(next_chitons)
     visited = []
 
     while next_chitons:
-        next_chitons = sorted(next_chitons, key=lambda chiton: risk_from_start[chiton])
-        current = next_chitons.pop(0)
+        iteration_num += 1
+        #next_chitons = sorted(next_chitons, key=lambda chiton: risk_from_start[chiton])
+        #current = next_chitons.pop(0)
+        current = heappop(next_chitons)[0]
         for chiton in current.connects:
             path_risk_level = risk_from_start[current] + chiton.risk_level
             if path_risk_level < risk_from_start[chiton]:
                 risk_from_start[chiton] = path_risk_level
-            if chiton not in visited and chiton not in next_chitons:
-                next_chitons.append(chiton)
+            if chiton not in visited and chiton not in map(lambda x: x[0], next_chitons):
+                #next_chitons.append(chiton)
+                heappush(next_chitons, (chiton, iteration_num))
         visited.append(current)
 
     print(risk_from_start[end])
+
+# who needs a grid
+# A* algorithm ?
