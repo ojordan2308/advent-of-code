@@ -1,5 +1,5 @@
 PUZZLE_INPUT_PATH = "./inputs/1.txt"
-TEST_INPUT_PATH = "./inputs/1_test.txt"
+TEST_INPUT_PATH = "./inputs/1-test.txt"
 
 
 def get_puzzle_input(file_path: str = PUZZLE_INPUT_PATH) -> list:
