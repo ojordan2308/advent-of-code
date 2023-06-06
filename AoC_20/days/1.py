@@ -16,11 +16,10 @@ def sum_to_2020(nums: list) -> tuple:
         num1 = nums[i]
 
         for j in range(l):
-
             if i == j:
                 continue
-
             num2 = nums[j]
+
             if num1 + num2 == 2020:
                 return num1, num2
             
@@ -30,22 +29,18 @@ def sum_to_2020_2(nums: list) -> tuple:
     l = len(nums)
 
     for i in range(l):
-
         num1 = nums[i]
 
         for j in range(l):
-
             if i == j:
                 continue
-
             num2 = nums[j]
 
             for k in range(l):
-
                 if k == i or k == j:
                     continue
-
                 num3 = nums[k]
+
                 if num1 + num2 + num3 == 2020:
                     return num1, num2, num3
 
