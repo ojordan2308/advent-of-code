@@ -23,6 +23,7 @@ def get_puzzle_input(input_path: str = PUZZLE_INPUT_PATH) -> list[dict]:
 
 def find_valid_passwords(passwords: list[dict]) -> int:
     count = 0
+
     for p in passwords:
         password = p["password"]
         min, max = p["range"]
@@ -31,8 +32,22 @@ def find_valid_passwords(passwords: list[dict]) -> int:
         n = password.count(letter)
         if n >= min and n <= max:
             count += 1
+
     return count
 
+
+def find_valid_passwords_2(passwords: list[dict]) -> int:
+    count = 0
+
+    for p in passwords:
+        password = p["password"]
+        i, j = p["range"]
+        letter = p["letter"]
+
+        if bool(password[i-1]==letter) != bool(password[j-1]==letter):
+            count += 1
+
+    return count
 
 
 
@@ -41,6 +56,10 @@ if __name__ == "__main__":
     
     input = get_puzzle_input()
     part1_result = find_valid_passwords(input)
+    part2_result = find_valid_passwords_2(input)
 
     print("======= PART 1 =======")
     print(part1_result)
+
+    print("======= PART 2 =======")
+    print(part2_result)
